@@ -94,17 +94,12 @@ function Navbar({ footerRef }) {
             </div>
           </div>
 
-          <Link
-            to="https://t.me/+dnHc3oBDisg4NGE0"
-            rel="noopener noreferrer"
-            target="__blank"
-            className="hidden md:block"
-          >
-            <button className="relative border-none p-4 rounded-full bg-[#fff] hover:bg-[#60A6E7] hover:text-white text-[#030516] text-[16px] font-bold">
+         
+            <button className="relative hidden md:block border-none p-4 rounded-full bg-[#fff] hover:bg-[#60A6E7] hover:text-white text-[#030516] text-[16px] font-bold">
               <span className="absolute inset-0 mt-4 p-5 rounded-full border-2 border-dotted border-[#fff] hover:border-[#60A6E7]"></span>
               <span className="relative">Book a Call</span>
             </button>
-          </Link>
+        
 
           <button onClick={toggleMenu} className="block md:hidden pt-4
           

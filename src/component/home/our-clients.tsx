@@ -33,7 +33,7 @@ const OurClient = () => {
 
   const handleAnimationComplete = () => {
     animationCompleteCount.current += 1;
-    // Check if all text animations are complete (title, description, and position)
+    
     if (animationCompleteCount.current === 3) {
       setIsAnimating(false);
     }
@@ -117,16 +117,17 @@ const OurClient = () => {
   const activeContent = tabs.find((tab) => tab.id === activeTab);
 
   useEffect(() => {
-    if (!isAnimating) {
+    if (!isAnimating && animationCompleteCount.current === 3) {
       setTimeout(() => {
         const currentIndex = tabs.findIndex((tab) => tab.id === activeTab);
         const nextIndex = (currentIndex + 1) % tabs.length;
         setActiveTab(tabs[nextIndex].id);
         setIsAnimating(true);
-        animationCompleteCount.current = 0;
+        animationCompleteCount.current = 0; 
       }, 1000);
     }
   }, [isAnimating, activeTab, tabs]);
+  
 
   const images = [
     "https://forcythe.com/images/Project%20Images/stac.svg",
