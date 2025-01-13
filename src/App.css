@@ -1,0 +1,74 @@
+.our-client-container {
+  overflow: hidden;
+  background-color: #030516;
+  padding: 20px 0;
+  width: 100%;
+}
+
+.scroller {
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.image-row {
+  display: flex;
+  gap: 30px;
+  flex-shrink: 0;
+}
+
+.image-row img {
+  width: auto;
+  flex-shrink: 0;
+}
+
+.move-left {
+  animation: scrollLeft 10s linear infinite;
+}
+
+.move-right {
+  animation: scrollRight 10s linear infinite;
+}
+
+@keyframes scrollLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-100% / 3));
+  }
+}
+
+@keyframes scrollRight {
+  0% {
+    transform: translateX(calc(-100% / 3));
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.content-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.slide-enter {
+  transform: translateX(100%);
+}
+
+.slide-enter-active {
+  transform: translateX(0%);
+  transition: transform 500ms ease-in-out;
+}
+
+.slide-exit {
+  transform: translateX(0%);
+}
+
+.slide-exit-active {
+  transform: translateX(-100%);
+  transition: transform 500ms ease-in-out;
+}
