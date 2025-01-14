@@ -5,52 +5,31 @@ const OurClient = () => {
   const [isAnimating, setIsAnimating] = useState(true);
   const animationCompleteCount = useRef(0);
 
-  const container = {
-    hidden: { opacity: 0 },
-    visible: (i = 1) => ({
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.08,
-        delayChildren: 0.02 * i,
-      },
-    }),
-  };
-
-  const child = {
-    visible: {
-      opacity: 1,
-      y: [20, 10, 0],
-      transition: {
-        duration: 0.3,
-        ease: "easeInOut",
-      },
-    },
-    hidden: {
-      opacity: 0,
-      y: 20,
-    },
-  };
-
-  const handleAnimationComplete = () => {
-    animationCompleteCount.current += 1;
-    
-    if (animationCompleteCount.current === 3) {
-      setIsAnimating(false);
-    }
-  };
-
   const AnimatedText = ({ text }) => {
     return (
       <motion.div
-        variants={container}
         initial="hidden"
         animate="visible"
-        onAnimationComplete={handleAnimationComplete}
-        className="overflow-hidden"
+        variants={{
+          hidden: { opacity: 0 },
+          visible: {
+            opacity: 1,
+            transition: {
+              staggerChildren: 0.1,
+            },
+          },
+        }}
       >
-        {text.split("").map((char, index) => (
-          <motion.span variants={child} key={index} className="inline-block">
-            {char === " " ? "\u00A0" : char}
+        {text.split(" ").map((word, index) => (
+          <motion.span
+            key={index}
+            variants={{
+              hidden: { opacity: 0, y: 10 },
+              visible: { opacity: 1, y: 0 },
+            }}
+            className="inline-block mr-1"
+          >
+            {word}
           </motion.span>
         ))}
       </motion.div>
@@ -123,11 +102,10 @@ const OurClient = () => {
         const nextIndex = (currentIndex + 1) % tabs.length;
         setActiveTab(tabs[nextIndex].id);
         setIsAnimating(true);
-        animationCompleteCount.current = 0; 
+        animationCompleteCount.current = 0;
       }, 1000);
     }
   }, [isAnimating, activeTab, tabs]);
-  
 
   const images = [
     "https://forcythe.com/images/Project%20Images/stac.svg",
@@ -136,6 +114,13 @@ const OurClient = () => {
     "https://forcythe.com/images/Project%20Images/starks.svg",
     "https://forcythe.com/images/Project%20Images/exec-pro.svg",
     "https://forcythe.com/images/Project%20Images/phone.svg",
+  ];
+  const paragraphs = [
+    <>
+      Discover the{" "}
+      <span className="text-[#60A6E7]">transformative stories</span> of
+    </>,
+    "startups that scaled new heights with us",
   ];
 
   return (
@@ -164,11 +149,35 @@ const OurClient = () => {
         </div>
       </div>
       <div className="bg-[#030516]">
-        <h3 className="text-[2rem] text-white md:block hidden leading-[2.5rem] sm:text-[2.2rem] sm:leading-[2.5rem] lg:text-[2.6rem] lg:leading-[3rem] mb-12 max-w-[60%] mx-auto text-center">
-          Discover the
-          <span className="text-[#60A6E7]"> transformative stories</span> of
-          startups that scaled new heights with us
-        </h3>
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: {
+                staggerChildren: 0.2,
+              },
+            },
+          }}
+        >
+          {paragraphs.map((text, index) => (
+            <motion.p
+              key={index}
+              variants={{
+                hidden: { opacity: 0 },
+                visible: {
+                  opacity: 1,
+                  transition: { duration: 2 },
+                },
+              }}
+              className="text-[2rem] text-white md:block hidden leading-[2.5rem] sm:text-[2.2rem] sm:leading-[2.5rem] lg:text-[2.6rem] lg:leading-[0rem] mb-12 max-w-[60%] mx-auto text-center"
+            >
+              {text}
+            </motion.p>
+          ))}
+        </motion.div>
 
         <div className="relative flex flex-col items-center">
           <div className="flex border border-[#60A6E7] rounded-full justify-center items-center gap-4 mb-10 w-[84%] mx-auto">
@@ -193,45 +202,43 @@ const OurClient = () => {
             ))}
           </div>
 
-          {/* Active Content */}
           <AnimatePresence mode="wait">
-        {activeContent && (
-          <motion.div
-            key={activeTab}
-            initial={{ x: 300, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            exit={{ x: -100, opacity: 0 }}
-            transition={{ type: "spring", stiffness: 100, damping: 20 }}
-            className="lg:w-[50%] md:w-[70%] w-full mx-auto flex flex-col lg:flex-row gap-6 items-center bg-[#0C2645] p-6 rounded-2xl"
-          >
-            {/* Text Content */}
-            <motion.div className="text-white lg:w-1/2">
-              <motion.div className="text-xl font-bold">
-                <AnimatedText text={activeContent.title} />
+            {activeContent && (
+              <motion.div
+                key={activeTab}
+                initial={{ x: 300, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: -100, opacity: 0 }}
+                transition={{ type: "spring", stiffness: 100, damping: 20 }}
+                className="lg:w-[50%] md:w-[70%] w-full mx-auto flex flex-col lg:flex-row gap-6 items-center bg-[#0C2645] p-6 rounded-2xl"
+              >
+                <motion.div className="text-white lg:w-1/2">
+                  <motion.div className="text-xl font-bold">
+                    <AnimatedText text={activeContent.title} />
+                  </motion.div>
+                  <motion.div className="mt-4">
+                    <AnimatedText text={activeContent.description} />
+                  </motion.div>
+                  <motion.div className="mt-4">
+                    <AnimatedText text={activeContent.position} />
+                  </motion.div>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.8, duration: 0.5 }}
+                  className="lg:w-1/2"
+                >
+                  <img
+                    src={activeContent.profileImage}
+                    alt={activeContent.title}
+                    className="rounded-lg w-full h-auto"
+                  />
+                </motion.div>
               </motion.div>
-              <motion.div className="mt-4">
-                <AnimatedText text={activeContent.description} />
-              </motion.div>
-              <motion.div className="mt-4">
-                <AnimatedText text={activeContent.position} />
-              </motion.div>
-            </motion.div>
-            {/* Profile Image */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.8, duration: 0.5 }}
-              className="lg:w-1/2"
-            >
-              <img
-                src={activeContent.profileImage}
-                alt={activeContent.title}
-                className="rounded-lg w-full h-auto"
-              />
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </>

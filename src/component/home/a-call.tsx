@@ -1,5 +1,7 @@
 import React from "react";
 import { ReactTyped as Typed } from "react-typed";
+import { motion } from "framer-motion";
+
 
 const SectionOne = () => {
   return (
@@ -44,10 +46,15 @@ const SectionOne = () => {
           clients’ journey
         </h3>
       </div>
-      <h3 className="text-[2rem] md:hidden mt-7 leading-[2.5rem] sm:text-[2.2rem] sm:leading-[2.5rem] lg:text-[2.6rem] lg:leading-[3rem] mb-12 max-w-[90%] mx-auto text-center">
+      <motion.h3 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1 }}
+      className="text-[2rem] md:hidden mt-7 leading-[2.5rem] sm:text-[2.2rem] sm:leading-[2.5rem] lg:text-[2.6rem] lg:leading-[3rem] mb-12 max-w-[90%] mx-auto text-center"
+      >
         Success in <span className="text-[#60A6E7]">Motion</span> – Our clients’
         journey
-      </h3>
+      </motion.h3>
     </div>
   );
 };
